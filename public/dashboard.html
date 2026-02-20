@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RR4 | 대시보드</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <h1 class="logo">RR4</h1>
+      <nav class="nav">
+        <a href="/index.html">랜딩</a>
+        <a href="#summary">요약</a>
+        <a href="#tasks">작업</a>
+        <a href="/memo.html">메모장</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="container dashboard-grid">
+      <section id="summary" class="panel reveal">
+        <h3>서비스 요약</h3>
+        <p>오늘 기준 주요 상태를 한 화면에서 확인하세요.</p>
+        <div class="metric-row">
+          <article class="metric-card">
+            <p class="metric-label">활성 사용자</p>
+            <p class="metric-value">1,284</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">신규 요청</p>
+            <p class="metric-value">93</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">오류율</p>
+            <p class="metric-value">0.12%</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="tasks" class="panel reveal" style="--delay: 0.09s">
+        <h3>바로 처리할 작업</h3>
+        <ul class="list">
+          <li>결제 실패 건 재시도 알림 확인</li>
+          <li>문의 티켓 우선순위 재정렬</li>
+          <li>배포 전 대시보드 지표 검증</li>
+          <li>운영 공지 문구 최종 검토</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 RR4. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>

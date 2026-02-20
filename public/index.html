@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RR4 | 쉽고 빠른 서비스</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <h1 class="logo">RR4</h1>
+      <nav class="nav">
+        <a href="#about">소개</a>
+        <a href="#features">기능</a>
+        <a href="#contact">문의</a>
+        <a href="/dashboard.html">대시보드</a>
+        <a href="/memo.html">메모장</a>
+        <button id="loginBtn" class="login-btn">로그인</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="hero-badge reveal">빠르고 간결한 사용자 경험</p>
+        <h2 class="reveal" style="--delay: 0.07s">복잡한 작업을<br />가볍게 시작하세요</h2>
+        <p class="hero-desc reveal" style="--delay: 0.12s">RR4는 필요한 기능에만 집중해서, 빠르고 직관적인 흐름을 제공합니다.</p>
+        <div class="cta-row reveal" style="--delay: 0.16s">
+          <a href="#features" class="btn">기능 보기</a>
+          <a href="/dashboard.html" class="btn btn-ghost">대시보드 보기</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <article class="panel reveal">
+          <h3>RR4 소개</h3>
+          <p>
+            RR4는 Express 기반의 경량 웹 프로젝트입니다. 설정은 단순하게, 화면은 명확하게 구성해서
+            서비스 핵심에 집중할 수 있도록 만들었습니다.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="container">
+        <h3 class="section-title reveal">주요 기능</h3>
+        <div class="card-grid">
+          <article class="card reveal">
+            <h4>빠른 응답</h4>
+            <p>가벼운 구조로 페이지 이동과 처리 흐름을 빠르게 유지합니다.</p>
+          </article>
+          <article class="card reveal" style="--delay: 0.07s">
+            <h4>심플한 구성</h4>
+            <p>필수 요소 위주의 화면으로 사용자가 바로 이해할 수 있습니다.</p>
+          </article>
+          <article class="card reveal" style="--delay: 0.12s">
+            <h4>확장 용이</h4>
+            <p>기능 추가와 변경이 쉬운 구조로 서비스 성장에 유연하게 대응합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="contact-wrap reveal">
+          <h3 class="section-title">문의하기</h3>
+          <form id="contactForm" class="contact-form">
+            <input type="text" placeholder="이름" required />
+            <input type="email" placeholder="이메일" required />
+            <textarea rows="5" placeholder="메시지를 입력하세요" required></textarea>
+            <button type="submit" class="btn">보내기</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 RR4. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal">
+      <h3>로그인</h3>
+      <form id="loginForm">
+        <input type="text" id="loginId" placeholder="아이디" required />
+        <input type="password" id="loginPw" placeholder="비밀번호" required />
+        <p id="loginError" class="login-error">아이디 또는 비밀번호가 올바르지 않습니다.</p>
+        <button type="submit" class="btn">로그인</button>
+        <button type="button" id="modalClose" class="modal-cancel">취소</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("메시지가 전송되었습니다. 감사합니다.");
+      e.target.reset();
+    });
+
+    const loginBtn = document.getElementById("loginBtn");
+    const loginModal = document.getElementById("loginModal");
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const modalClose = document.getElementById("modalClose");
+
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      loginBtn.textContent = "로그아웃";
+    }
+
+    loginBtn.addEventListener("click", () => {
+      if (sessionStorage.getItem("loggedIn") === "true") {
+        sessionStorage.removeItem("loggedIn");
+        loginBtn.textContent = "로그인";
+      } else {
+        loginModal.style.display = "flex";
+      }
+    });
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = document.getElementById("loginId").value;
+      const pw = document.getElementById("loginPw").value;
+
+      if (id === "admin" && pw === "1234") {
+        sessionStorage.setItem("loggedIn", "true");
+        loginBtn.textContent = "로그아웃";
+        loginModal.style.display = "none";
+        loginForm.reset();
+        loginError.style.display = "none";
+      } else {
+        loginError.style.display = "block";
+      }
+    });
+
+    modalClose.addEventListener("click", () => {
+      loginModal.style.display = "none";
+      loginError.style.display = "none";
+      loginForm.reset();
+    });
+
+    loginModal.addEventListener("click", (e) => {
+      if (e.target === loginModal) {
+        loginModal.style.display = "none";
+        loginError.style.display = "none";
+        loginForm.reset();
+      }
+    });
+
+    const revealItems = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>
