@@ -17,7 +17,7 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/api/memos", (req, res) => {
-  res.status(200).json(memos);
+  res.status(200).json([...memos].reverse());
 });
 
 app.post("/api/memos", (req, res) => {
